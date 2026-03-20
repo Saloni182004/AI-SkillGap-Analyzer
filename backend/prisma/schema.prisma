@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  targetRole String?
+  createdAt  DateTime @default(now())
+
+  resumes      Resume[]
+  interviews   InterviewSession[]
+  skillGapReports SkillGapReport[]
+}
+
+model Resume {
+  id              String   @id @default(uuid())
+  userId          String
+  fileUrl         String
+  extractedSkills String[]
+  experienceLevel String?
+  createdAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model SkillGapReport {
+  id             String   @id @default(uuid())
+  userId         String
+  missingSkills  String[]
+  readinessScore Float
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model InterviewSession {
+  id           String   @id @default(uuid())
+  userId       String
+  role         String
+  questions    Json
+  answers      Json
+  scores       Json
+  overallScore Float?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
