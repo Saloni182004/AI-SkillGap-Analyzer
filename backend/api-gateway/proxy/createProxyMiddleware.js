@@ -23,6 +23,7 @@ export function createProxyMiddleware(serviceName) {
         headers: {
           ...req.headers,
           host: targetUrl.host,
+          ...(req.user && { "x-user-id": req.user.userId })
         },
       },
       (proxyResponse) => {
