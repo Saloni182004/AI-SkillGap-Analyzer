@@ -253,23 +253,22 @@ Before generating the final JSON:
 You are a Senior Career Strategy Consultant and Technical Recruiter.
 
 ### TASK
-Conduct a rigorous gap analysis between a candidate's current profile and the requirements for the role of: {target_role}.
+Conduct a rigorous gap analysis between a candidate's profile and the industry standards for: {target_role}.
 
 ### INPUT DATA
-- Candidate Profile (JSON): {json.dumps(profile)}
+- Candidate Profile: {json.dumps(profile)}
 - Target Role: {target_role}
 
 ### ANALYSIS GUIDELINES
-1. Identify Strengths: Find skills in 'core_skills', 'experience', or 'projects' that directly align with the role.
-2. Identify Missing Skills: Determine which critical skills, tools, or domain knowledge are absent from the profile but essential for the role.
-3. Scoring: Provide a 'role_relevance_score' (0-100) based on readiness for the role.
+1. **Critical Comparison:** Compare the profile against the top 15 in-demand skills for a {target_role} in 2026.
+2. **Identify Missing Skills:** You MUST identify at least 5-8 specific technical skills or tools that are NOT in the profile but are essential for the role.
+3. **Be Strict:** Even if they have basics, look for missing advanced tools (e.g., Redis, Docker, System Design).
+4. **Scoring:** Role readiness score from 0-100.
 
 ### OUTPUT INSTRUCTIONS
 - Return ONLY a JSON object.
-- No markdown, no conversational filler.
-- Follow this JSON schema strictly:
-
-{json.dumps(schema)}
+- Use the key 'missing_skills' exactly as defined in the schema.
+- Follow this schema: {json.dumps(schema)}
 """
 
     @staticmethod
@@ -278,23 +277,20 @@ Conduct a rigorous gap analysis between a candidate's current profile and the re
 You are an expert Technical Curriculum Designer.
 
 ### TASK
-Create a high-impact, 8-week accelerated learning roadmap for a student aiming to become a: {target_role}.
+Create a high-impact, 4-WEEK accelerated learning roadmap to become a: {target_role}.
 
 ### SUBJECTS TO COVER
-The user needs to master the following skills:
-{json.dumps(skills_to_learn)}
+Focus ONLY on mastering these skills: {json.dumps(skills_to_learn)}
 
 ### CURRICULUM REQUIREMENTS
-1. Structure: Break the roadmap into 8 distinct weeks.
-2. Progression: Start with foundational gaps in Week 1 and progress to advanced implementation or projects by Week 8.
-3. Actionable Goals: Each week must have 3-4 clear learning_goals.
-4. Resources: Provide 2-3 recommended_resources per week (documentation, courses, or project ideas).
+1. **Duration:** Exactly 4 weeks (Milestones).
+2. **Efficiency:** Group related skills to maximize speed.
+3. **Actionable Goals:** Each week must have 3-4 'learning_goals'.
+4. **Resources:** Provide 2-3 'recommended_resources' per week.
 
 ### OUTPUT INSTRUCTIONS
-- Return ONLY a JSON object.
-- Strictly follow this schema:
-
-{json.dumps(schema)}
-
-Do not include any text outside the JSON.
+- Return ONLY a valid JSON object.
+- **CRITICAL:** Use the exact keys: 'week', 'topic', 'learning_goals', 'recommended_resources'.
+- Do NOT use 'topics' or 'resources' as keys.
+- Strictly follow this schema: {json.dumps(schema)}
 """

@@ -9,6 +9,7 @@
     "start:gateway": "node api-gateway/server.js",
     "start:auth": "node services/auth-service/server.js",
     "start:roadmap": "node services/RoadmapGenerator/server.js",
+    
     "dev": "nodemon api-gateway/server.js",
     "dev:gateway": "nodemon api-gateway/server.js",
     "dev:auth": "nodemon services/auth-service/server.js",
