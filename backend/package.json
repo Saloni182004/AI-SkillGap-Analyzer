@@ -14,6 +14,9 @@
     "dev:gateway": "nodemon api-gateway/server.js",
     "dev:auth": "nodemon services/auth-service/server.js",
     "dev:roadmap": "nodemon services/RoadmapGenerator/server.js",
+    "dev:ai": "cd services/AiOrchestrator && ../../.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 5003 --reload",
+    "dev:resume": "cd services/ResumeService && ../../.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 5002 --reload",
+    "dev:all": "concurrently -n gateway,auth,roadmap,ai,resume -c blue,green,magenta,cyan,yellow \"npm run dev:gateway\" \"npm run dev:auth\" \"npm run dev:roadmap\" \"npm run dev:ai\" \"npm run dev:resume\"",
     "check": "node --check api-gateway/server.js && node --check services/auth-service/server.js && node --check services/resume-service/server.js"
   },
   "dependencies": {
@@ -30,6 +33,7 @@
     "multer-s3": "^3.0.1"
   },
   "devDependencies": {
+    "concurrently": "^9.2.0",
     "nodemon": "^3.1.0",
     "prisma": "^5.22.0"
   }
