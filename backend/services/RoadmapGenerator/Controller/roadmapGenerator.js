@@ -42,3 +42,31 @@ export const roadmapGenerator = async (req, res) => {
     });
   }
 };
+
+export const toggleMilestone = async (req, res) => {
+  try {
+    const userId = req.headers["x-user-id"];
+    const { week, completed } = req.body;
+
+    const roadmap = await Roadmap.findOne({ userId });
+    
+    if (!roadmap) {
+      return res.status(404).json({ message: "Roadmap not found" });
+    }
+    const weekIndex = roadmap.weeklyPlan.findIndex(w => w.week === week);
+    if (weekIndex === -1) {
+      return res.status(404).json({ message: "Milestone not found" });
+    }
+
+    roadmap.weeklyPlan[weekIndex].completed = completed;
+    await roadmap.save();
+
+    return res.json({ 
+      message: "Milestone updated successfully", 
+      roadmap 
+    });
+  } catch (error) {
+    console.error("Toggle Milestone Error:", error.message);
+    return res.status(500).json({ message: "Failed to update milestone" });
+  }
+};

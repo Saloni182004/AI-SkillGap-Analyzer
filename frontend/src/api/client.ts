@@ -4,7 +4,6 @@ import { clearToken, getToken } from '@/lib/storage'
 
 const baseURL = import.meta.env.VITE_API_BASE_URL ?? ''
 
-/** Resume parsing and roadmap generation can exceed 60s; align with backend AI timeouts. */
 const DEFAULT_TIMEOUT_MS = 180_000
 
 export const apiClient = axios.create({

@@ -91,3 +91,28 @@ export type ApiErrorBody = {
   message?: string
   detail?: string
 }
+
+// frontend/src/types/api.ts
+
+export interface InterviewQuestion {
+  _id: string;
+  question: string;
+  category: 'previous_skills' | 'roadmap_skills' | 'general_role';
+  relatedSkill?: string;
+  expectedAnswerPoints: string[];
+  userAnswer?: string;
+  score?: number;
+  feedback?: string;
+}
+
+export interface GenerateInterviewResponse {
+  message: string;
+  interviewId: string;
+  questions: InterviewQuestion[];
+}
+
+export interface EvaluateInterviewResponse {
+  message: string;
+  overallScore: number;
+  questions: InterviewQuestion[];
+}

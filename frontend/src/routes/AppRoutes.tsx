@@ -15,6 +15,7 @@ const AnalyzePage = lazy(() => import('@/pages/dashboard/AnalyzePage'))
 const RoadmapPage = lazy(() => import('@/pages/dashboard/RoadmapPage'))
 const TrendingSkillsPage = lazy(() => import('@/pages/dashboard/TrendingSkillsPage'))
 const SettingsPage = lazy(() => import('@/pages/dashboard/SettingsPage'))
+const InterviewPage = lazy(() => import('@/pages/dashboard/InterviewPage'))
 
 function PageFallback() {
   return (
@@ -46,6 +47,7 @@ export function AppRoutes() {
               <Route path="resume" element={<UploadResumePage />} />
               <Route path="analyze" element={<AnalyzePage />} />
               <Route path="roadmap" element={<RoadmapPage />} />
+              <Route path="interview" element={<InterviewPage />}/>
               <Route path="trending" element={<TrendingSkillsPage />} />
               <Route path="settings" element={<SettingsPage />} />
             </Route>

@@ -11,6 +11,7 @@ const items = [
   { to: '/app/resume', label: 'Resume upload', icon: '▤' },
   { to: '/app/analyze', label: 'Gap analysis', icon: '◎' },
   { to: '/app/roadmap', label: 'AI roadmap', icon: '⎈' },
+  { to: '/app/interview', label: 'Mock interview', icon: '💬' }, // <-- Added Mock Interview here!
   { to: '/app/trending', label: 'Trending skills', icon: '▲' },
   { to: '/app/settings', label: 'Profile & settings', icon: '⚙' },
 ] as const

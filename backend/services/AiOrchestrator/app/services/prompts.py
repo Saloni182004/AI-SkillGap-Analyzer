@@ -249,26 +249,43 @@ Before generating the final JSON:
 
     @staticmethod
     def get_gap_analysis_prompt(profile: dict, target_role: str, schema: dict) -> str:
+        import json
+        
         return f"""
-You are a Senior Career Strategy Consultant and Technical Recruiter.
+You are a strict, top-tier Technical Recruiter and Career Strategist evaluating a candidate for a {target_role} position in the current tech market.
 
 ### TASK
-Conduct a rigorous gap analysis between a candidate's profile and the industry standards for: {target_role}.
+Perform a ruthless, market-oriented gap analysis. Compare the provided Candidate Profile against current, high-paying industry standards for a {target_role}.
 
 ### INPUT DATA
 - Candidate Profile: {json.dumps(profile)}
 - Target Role: {target_role}
 
 ### ANALYSIS GUIDELINES
-1. **Critical Comparison:** Compare the profile against the top 15 in-demand skills for a {target_role} in 2026.
-2. **Identify Missing Skills:** You MUST identify at least 5-8 specific technical skills or tools that are NOT in the profile but are essential for the role.
-3. **Be Strict:** Even if they have basics, look for missing advanced tools (e.g., Redis, Docker, System Design).
-4. **Scoring:** Role readiness score from 0-100.
+1. **Real Market Requirements:** Identify the actual, modern tech stack required for this role (e.g., specific cloud providers, CI/CD tools, modern frameworks, caching, message queues).
+2. **Identify Missing Skills:** Extract exactly 5 to 8 specific, real-world technical skills or tools that the candidate is missing. 
+3. **Be Specific:** Do not use vague terms like "Databases" or "Cloud". Use specific, highly-demanded market tools like "PostgreSQL", "Redis", "Docker", or "AWS EC2".
+4. **Scoring:** Provide a role readiness score from 0-100 based strictly on how closely their current tools match the target role.
 
 ### OUTPUT INSTRUCTIONS
-- Return ONLY a JSON object.
-- Use the key 'missing_skills' exactly as defined in the schema.
-- Follow this schema: {json.dumps(schema)}
+- Return ONLY a valid JSON object. Do not include markdown formatting like ```json.
+- WARNING: DO NOT output placeholder text. You MUST replace the bracketed examples below with the ACTUAL specific technologies and skills based on your analysis of the profile.
+
+### REQUIRED JSON STRUCTURE:
+{{
+    "missing_skills": [
+        "<insert real missing tool or skill 1>",
+        "<insert real missing tool or skill 2>",
+        "<insert real missing tool or skill 3>",
+        "<insert real missing tool or skill 4>",
+        "<insert real missing tool or skill 5>"
+    ],
+    "identified_strengths": [
+        "<insert real existing tool or skill 1>",
+        "<insert real existing tool or skill 2>"
+    ],
+    "role_relevance_score": <insert integer between 0 and 100>
+}}
 """
 
     @staticmethod
