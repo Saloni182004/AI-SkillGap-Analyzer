@@ -4,6 +4,7 @@ export const servicePorts = {
   resume: Number(process.env.RESUME_SERVICE_PORT),
   aiOrchestrator:Number(process.env.AI_ORCHESTRATOR_SERVICE_PORT),
   roadmap: Number(process.env.ROADMAP_SERVICE_PORT),
+  interview: Number(process.env.INTERVIEW_SERVICE_PORT),
 };
 
 export const serviceUrls = {
@@ -11,5 +12,6 @@ export const serviceUrls = {
   auth:`http://localhost:${servicePorts.auth}`,
   resume:`http://localhost:${servicePorts.resume}`,
   aiOrchestrator:`http://localhost:${servicePorts.aiOrchestrator}`,
-  roadmap:`http://localhost:${servicePorts.roadmap}`
+  roadmap:`http://localhost:${servicePorts.roadmap}`,
+  interview:`http://localhost:${servicePorts.interview}`
 };

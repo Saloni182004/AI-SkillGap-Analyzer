@@ -32,7 +32,7 @@ export const roadmapGenerator = async (req, res) => {
     await roadmap.save();
 
     return res.json({
-      message: "Your 8-week career roadmap is ready!",
+      message: "Your 4-week career roadmap is ready!",
       roadmap: roadmap,
     });
   } catch (error) {
