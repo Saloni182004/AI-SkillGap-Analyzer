@@ -294,3 +294,66 @@ Focus ONLY on mastering these skills: {json.dumps(skills_to_learn)}
 - Do NOT use 'topics' or 'resources' as keys.
 - Strictly follow this schema: {json.dumps(schema)}
 """
+    @staticmethod
+    def get_interview_generator_prompt(payload: dict, schema: dict) -> str:
+        return f"""
+You are an expert Technical Interviewer for the role of: {payload['targetRole']}.
+
+### TASK
+Generate a structured technical interview containing exactly {payload['distribution']['previous']['count'] + payload['distribution']['roadmap']['count'] + payload['distribution']['general']['count']} questions.
+
+### DISTRIBUTION REQUIREMENTS
+1. **Previous Skills ({payload['distribution']['previous']['count']} questions):** Test existing knowledge from: {payload['distribution']['previous']['skills']}. Category MUST be 'previous_skills'.
+2. **Roadmap Skills ({payload['distribution']['roadmap']['count']} questions):** Test recently learned concepts from: {payload['distribution']['roadmap']['skills']}. Category MUST be 'roadmap_skills'.
+3. **General Role ({payload['distribution']['general']['count']} questions):** Broad architectural questions for a {payload['targetRole']}. Category MUST be 'general_role'.
+
+### OUTPUT INSTRUCTIONS
+- Return ONLY a valid JSON object. Do not include markdown backticks like ```json.
+- You MUST populate the `questions` array with the exact number of required questions.
+- Strictly follow this exact JSON structure:
+
+{{
+    "questions": [
+        {{
+            "question": "The technical question here",
+            "category": "previous_skills",
+            "relatedSkill": "Name of the specific skill",
+            "expectedAnswerPoints": [
+                "Key concept 1 the candidate must mention",
+                "Key concept 2",
+                "Key concept 3"
+            ]
+        }}
+    ]
+}}
+"""
+    @staticmethod
+    def get_evaluation_prompt(question: str, expected_points: list, user_answer: str, schema: dict) -> str:
+        import json
+        
+        return f"""
+You are a strict, senior Technical Interviewer grading a candidate's response.
+
+### TASK
+Evaluate the candidate's answer against the expected key points.
+
+### INTERVIEW DATA
+- **Question:** {question}
+- **Expected Key Points (Rubric):** {json.dumps(expected_points)}
+- **Candidate's Answer:** {user_answer}
+
+### STRICT ZERO-TOLERANCE RULE
+If the candidate's answer is "I don't know", "I am not sure", left empty, or is a clear refusal to answer, you MUST give a score of exactly 0. Do not give points for honesty.
+
+### GRADING RUBRIC
+- **9-10:** Mentions almost all expected points accurately with excellent technical depth and context.
+- **6-8:** Mentions the core concepts but misses some specific technical details or expected points.
+- **3-5:** Vague, partially incorrect, lacks depth, or misses the majority of the expected points.
+- **1-2:** Completely wrong or entirely irrelevant attempt at answering.
+- **0:** Explicitly states they do not know or leaves the answer blank.
+
+### OUTPUT INSTRUCTIONS
+- Return ONLY a valid JSON object. Do not include markdown formatting like ```json.
+- Provide a `score` (integer 0-10), brief actionable `feedback` (1-2 sentences on what they missed), and a pass/fail boolean (`is_passing`, true if score >= 6).
+- Strictly follow this exact JSON schema: {json.dumps(schema)}
+"""

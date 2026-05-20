@@ -63,3 +63,17 @@ async def generate_learning_roadmap(skills: list, target_role: str, schema: dict
     """Generates the 8-week structured schedule."""
     prompt = AIPrompts.get_roadmap_generator_prompt(skills, target_role, schema)
     return await call_llm_service(prompt)
+async def generate_interview_questions(payload: dict, schema: dict) -> dict:
+    """
+    Generates a structured technical interview based on previous and missing skills.
+    Expected payload format: { "targetRole": "...", "distribution": { "previous": {...}, ... } }
+    """
+    prompt = AIPrompts.get_interview_generator_prompt(payload, schema)
+    return await call_llm_service(prompt)
+
+async def evaluate_interview_answer(question: str, expected_points: list, user_answer: str, schema: dict) -> dict:
+    """
+    Evaluates a single answer provided by the user against the expected key points.
+    """
+    prompt = AIPrompts.get_evaluation_prompt(question, expected_points, user_answer, schema)
+    return await call_llm_service(prompt)

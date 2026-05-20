@@ -15,5 +15,6 @@ app.use("/api/auth", createProxyMiddleware("auth"));
 app.use("/api/resumes", verifyToken, createProxyMiddleware("resume"));
 app.use("/api/ai", verifyToken, createProxyMiddleware("aiOrchestrator"));
 app.use("/api/roadmap", verifyToken, createProxyMiddleware("roadmap"));
+app.use("/api/interview", verifyToken, createProxyMiddleware("interview"));
 
 export default app;

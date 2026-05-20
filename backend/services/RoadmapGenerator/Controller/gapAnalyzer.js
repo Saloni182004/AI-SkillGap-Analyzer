@@ -125,3 +125,35 @@ export const skillAddedByUser = async (req, res) => {
     });
   }
 };
+
+export const getRoadmap = async (req, res) => {
+  try {
+    const userId = req.headers["x-user-id"];
+    const roadmap = await Roadmap.findOne({ userId });
+
+    if (!roadmap) {
+      return res.status(404).json({ message: "Roadmap not found" });
+    }
+
+    return res.json(roadmap);
+  } catch (error) {
+    console.error("Get Roadmap Error:", error.message);
+    return res.status(500).json({ message: "Failed to fetch roadmap" });
+  }
+};
+
+export const getUserProfile = async (req, res) => {
+  try {
+    const userId = req.headers["x-user-id"];
+    const resume = await Resume.findOne({ user_id: userId });
+
+    if (!resume || !resume.profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    return res.json({ profile: resume.profile });
+  } catch (error) {
+    console.error("Get Profile Error:", error.message);
+    return res.status(500).json({ message: "Failed to fetch user profile" });
+  }
+};
