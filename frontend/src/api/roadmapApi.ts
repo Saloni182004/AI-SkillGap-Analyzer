@@ -31,3 +31,15 @@ export async function generateRoadmap() {
   )
   return data
 }
+export async function fetchActiveRoadmap() {
+  const { data } = await apiClient.get<any>('/api/roadmap/getRoadmap')
+  return data
+}
+
+export async function toggleMilestoneStatus(week: string, completed: boolean) {
+  const { data } = await apiClient.put<GenerateRoadmapResponse>('/api/roadmap/toggle-milestone', {
+    week,
+    completed
+  })
+  return data
+}

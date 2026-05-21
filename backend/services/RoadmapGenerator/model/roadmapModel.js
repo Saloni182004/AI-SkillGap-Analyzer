@@ -11,6 +11,7 @@ const RoadmapSchema = new mongoose.Schema({
       topic: String, 
       learning_goals: [String], 
       recommended_resources: [String], 
+      completed: { type: Boolean, default: false }
     },
   ],
   status: {
