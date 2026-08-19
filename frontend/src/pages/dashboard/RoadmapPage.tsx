@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { getErrorMessage } from '@/api/client'
@@ -178,7 +178,13 @@ export default function RoadmapPage() {
                 </label>
                 <form className="flex flex-col gap-3 sm:flex-row sm:items-end" onSubmit={onAddSkill}>
                   <div className="flex-1">
-                    <Input placeholder="e.g., GraphQL, Kubernetes..." name="skillName" value={skillName} onChange={(e) => setSkillName(e.target.value)} />
+                    <Input 
+                      label="Skill Name"
+                      placeholder="e.g., GraphQL, Kubernetes..." 
+                      name="skillName" 
+                      value={skillName} 
+                      onChange={(e) => setSkillName(e.target.value)} 
+                    />
                   </div>
                   <Button type="submit" disabled={adding || !skillName.trim()} variant="secondary">
                     {adding ? <Spinner label="Adding" /> : 'Add to Curriculum'}

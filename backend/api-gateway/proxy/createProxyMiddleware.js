@@ -12,7 +12,6 @@ export function createProxyMiddleware(serviceName) {
         message: `Service '${serviceName}' is not configured`,
       });
     }
-
     const targetUrl = new URL(req.originalUrl, targetBaseUrl);
     const client = targetUrl.protocol === "https:" ? https : http;
 

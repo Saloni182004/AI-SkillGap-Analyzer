@@ -10,7 +10,7 @@ import {
 
 import { decodeJwtPayload, type JwtClaims } from '@/lib/jwt'
 import { clearToken, getStoredProfile, getToken, setStoredProfile, setToken } from '@/lib/storage'
-import { loginRequest } from '@/api/authApi'
+import { loginRequest, registerRequest } from '@/api/authApi' // <-- Added registerRequest here
 
 /* eslint-disable react-refresh/only-export-components -- AuthProvider and useAuth belong together */
 
@@ -25,6 +25,7 @@ type AuthContextValue = {
   user: AuthUser | null
   isAuthenticated: boolean
   login: (email: string, password: string) => Promise<void>
+  register: (name: string, email: string, password: string) => Promise<void> // <-- Added to Type
   logout: () => void
   setDisplayName: (name: string) => void
 }
@@ -68,6 +69,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setTokenState(res.token)
   }, [])
 
+  // <-- ADDED LOGIC FOR REGISTER -->
+// <-- UPDATED LOGIC FOR REGISTER -->
+  const register = useCallback(async (name: string, email: string, password: string) => {
+    await registerRequest(name, email, password)
+    await login(email, password)
+    setStoredProfile({ displayName: name.trim() }) 
+    setProfileVersion((v) => v + 1)
+  }, [login]) 
   const logout = useCallback(() => {
     clearToken()
     setTokenState(null)
@@ -84,10 +93,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user,
       isAuthenticated: Boolean(token && user),
       login,
+      register, // <-- Exported to Context
       logout,
       setDisplayName,
     }),
-    [token, user, login, logout, setDisplayName],
+    [token, user, login, register, logout, setDisplayName],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

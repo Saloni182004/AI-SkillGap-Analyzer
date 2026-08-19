@@ -47,7 +47,6 @@ export default function InterviewPage() {
     setLoading(true)
     setError(null)
     
-   
     const payload = questions.map((q) => ({
       questionId: q._id,
       answer: answers[q._id] || "I don't know"
@@ -128,6 +127,7 @@ export default function InterviewPage() {
             </h3>
             
             <Textarea 
+              label="Your Answer"
               rows={6}
               placeholder="Type your answer here... (or type 'I don't know' to skip)"
               value={answers[questions[currentIdx]._id] || ''}
