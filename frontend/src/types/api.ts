@@ -53,6 +53,7 @@ export type RoadmapMilestone = {
   topic: string
   learning_goals: string[]
   recommended_resources: string[]
+  completed?: boolean;
 }
 
 export type RoadmapDoc = {
